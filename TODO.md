@@ -1,6 +1,8 @@
 
 # TODO List
 
-1. get everyone access to the repo
-2. ***figure out what we're doing...***
-3. ???
+1. prototype login/register page
+2. how to make database
+3. link database with login/register page
+4. ???
+5. profit
