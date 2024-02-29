@@ -1,3 +1,0 @@
-1. User selects event/task and chooses to delete the event/task. User quits.
-
-2. User chooses future date and chooses to create event/task. User specifies event/task title, description, and time. User quits.
