@@ -11,13 +11,13 @@
     <div class="main">
         <h1>Leap</h1> 
 		<h3>Enter your info</h3> 
-        <from action="">
+        <form action="login.php" method="post">
             <label for="first"> 
 				Email: 
 			</label> 
-			<input type="text"
+			<input type="email"
 				id="first"
-				name="first"
+				name="registerEmail"
 				placeholder="Enter your Email" required>
                 
             <label for="second"> 
@@ -25,7 +25,7 @@
 			</label> 
 			<input type="text"
 				id="second"
-				name="second"
+				name="name"
 				placeholder="Enter your name" required> 
 
 			<label for="password"> 
@@ -33,7 +33,7 @@
 			</label> 
 			<input type="password"
 				id="password"
-				name="password"
+				name="registerPassword"
 				placeholder="Enter your Password" required> 
 
 			<div class="wrap"> 
