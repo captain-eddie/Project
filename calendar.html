@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leap</title>
+
+    <!--This style was gpt genereated... will investigate later-->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .month-year {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Leap</h1>
+
+    <div class="month-year">
+        <button onclick="prevMonth()">Previous</button>
+        <span id="currentMonthYear"></span>
+        <button onclick="nextMonth()">Next</button>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Sun</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+            </tr>
+        </thead>
+        <tbody id="calendarBody">
+            <!-- Calendar content will be dynamically generated here -->
+        </tbody>
+    </table>
+
+    <script>
+//  a lot of this function was copied from google calendar and apple calendar and stuff..
+
+        // Initial values for the current month and year
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+
+        // Function to update the calendar based on the current month and year
+        function updateCalendar() {
+            const calendarBody = document.getElementById('calendarBody');
+            const currentMonthYear = document.getElementById('currentMonthYear');
+
+            // Clear the previous content
+            calendarBody.innerHTML = '';
+
+            // Set the current month and year
+            currentMonthYear.textContent = `${new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} ${currentYear}`;
+
+            // Get the first day of the month and the total number of days in the month
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            // Create the calendar rows
+            let row = calendarBody.insertRow();
+            for (let i = 0; i < firstDay; i++) {
+                row.insertCell();
+            }
+                /// this was gpt generated, will need to make sure it works
+            for (let day = 1; day <= lastDay; day++) {
+                const cell = row.insertCell();
+                cell.textContent = day;
+
+                // Example: You can add event listeners or other functionality here for each day
+                // cell.addEventListener('click', function() {
+                //    // Handle click event for the day
+                // });
+                
+                if (row.cells.length === 7) {
+                    row = calendarBody.insertRow();
+                }
+            }
+        }
+
+        // Function to go to the previous month
+        function prevMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            updateCalendar();
+        }
+
+        // Function to go to the next month
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            updateCalendar();
+        }
+
+        // Initial calendar setup
+        updateCalendar();
+    </script>
+</body>
+</html>
