@@ -25,7 +25,7 @@
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #e74c3c;
         }
 
         .month-year {
@@ -35,6 +35,10 @@
 
         button {
             cursor: pointer;
+        }
+        
+        h1 {
+            color: #e74c3c; /* Change the color of the h1 element */
         }
     </style>
 </head>
@@ -68,43 +72,72 @@
         // Initial values for the current month and year
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
-
+        let selectedCell; // To store the clicked cell
+        
         // Function to update the calendar based on the current month and year
         function updateCalendar() {
             const calendarBody = document.getElementById('calendarBody');
             const currentMonthYear = document.getElementById('currentMonthYear');
-
+    
             // Clear the previous content
             calendarBody.innerHTML = '';
-
+    
             // Set the current month and year
             currentMonthYear.textContent = `${new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} ${currentYear}`;
-
+    
             // Get the first day of the month and the total number of days in the month
             const firstDay = new Date(currentYear, currentMonth, 1).getDay();
             const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
-
+    
             // Create the calendar rows
             let row = calendarBody.insertRow();
             for (let i = 0; i < firstDay; i++) {
                 row.insertCell();
             }
-
+    
             for (let day = 1; day <= lastDay; day++) {
                 const cell = row.insertCell();
                 cell.textContent = day;
-
-                // Example: You can add event listeners or other functionality here for each day
-                // cell.addEventListener('click', function() {
-                //    // Handle click event for the day
-                // });
-                
+    
+                // Add click event listener to each cell
+                cell.addEventListener('click', function() {
+                    // Store the clicked cell
+                    selectedCell = cell;
+                    // Open a pop-up window with text entry boxes
+                    const popupWindow = window.open('', '_blank', 'width=400,height=200');
+                    popupWindow.document.write(`
+                        <h2>Enter Details for ${currentYear}-${currentMonth + 1}-${day}</h2>
+                        <form id="popupForm">
+                            <label for="title">Title:</label><br>
+                            <input type="text" id="title" name="title"><br>
+                            <label for="location">Location:</label><br>
+                            <input type="text" id="location" name="location"><br>
+                            <label for="notes">Notes:</label><br>
+                            <textarea id="notes" name="notes"></textarea><br><br>
+                            <input type="submit" value="Submit">
+                        </form>
+                    `);
+                    
+                    // Add event listener to form submission
+                    popupWindow.document.getElementById('popupForm').addEventListener('submit', function(event) {
+                        event.preventDefault(); // Prevent default form submission
+                        // Get the entered values
+                        const title = popupWindow.document.getElementById('title').value;
+                        const location = popupWindow.document.getElementById('location').value;
+                        const notes = popupWindow.document.getElementById('notes').value;
+                        // Update the content of the clicked cell
+                        selectedCell.innerHTML = `${day}<br>${title}<br>${location}<br>${notes}`;
+                        // Close the popup window
+                        popupWindow.close();
+                    });
+                });
+    
                 if (row.cells.length === 7) {
                     row = calendarBody.insertRow();
                 }
             }
         }
-
+    
         // Function to go to the previous month
         function prevMonth() {
             currentMonth--;
@@ -114,7 +147,7 @@
             }
             updateCalendar();
         }
-
+    
         // Function to go to the next month
         function nextMonth() {
             currentMonth++;
@@ -124,9 +157,12 @@
             }
             updateCalendar();
         }
-
+    
         // Initial calendar setup
         updateCalendar();
     </script>
+    
+    
+    
 </body>
 </html>
