@@ -20,6 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user['email'] == $email && password_verify($password, $user['password'])) {
             $_SESSION['loggedin'] = true;
             $_SESSION['email'] = $email;
+            $_SESSION['events'] = $_SESSION['events'] ?? []; // Initialize events array if not set
             //  this is redirect stuff and things
             header("Location: calendar.html");
             exit;
