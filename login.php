@@ -1,32 +1,23 @@
 <?php
 session_start();
-
-$userDataFile = 'users.txt';
-
-$users = [];
-if (file_exists($userDataFile)) {
-    $lines = file($userDataFile, FILE_IGNORE_NEW_LINES);
-    foreach ($lines as $line) {
-        list($email, $hashedPassword) = explode(',', $line);
-        $users[] = ['email' => $email, 'password' => $hashedPassword];
-    }
-}
-
+require 'db_connect.php'; 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['loginEmail'];
     $password = $_POST['loginPassword'];
 
-    foreach ($users as $user) {
-        if ($user['email'] == $email && password_verify($password, $user['password'])) {
-            $_SESSION['loggedin'] = true;
-            $_SESSION['email'] = $email;
-            $_SESSION['events'] = $_SESSION['events'] ?? []; // Initialize events array if not set
-            //  this is redirect stuff and things
-            header("Location: calendar.html");
-            exit;
-        }
-    }
+    $stmt = $pdo->prepare("SELECT id, password FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    $user = $stmt->fetch();
 
-    echo "Invalid email or password";
+    if ($user && password_verify($password, $user['password'])) {
+        $_SESSION['loggedin'] = true;
+        $_SESSION['id'] = $user['id'];
+        $_SESSION['email'] = $email;
+
+        header("Location: calendar.html");
+        exit;
+    } else {
+        echo "Invalid email or password.";
+    }
 }
 ?>
