@@ -21,7 +21,7 @@
             padding: 10px;
             text-align: center;
             width: calc(100% / 7);
-            height: 75px; /* set height to whatever  */
+            height: 75px; /* height stuff can be changed  */
         }
 
         th {
@@ -40,10 +40,56 @@
         h1 {
             color: #e74c3c; /* change the color of the h1 element */
         }
+
+        /* Dropdown button */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            float: right; /*dont understand the squigiles*/
+            margin-top: -50px;
+        }
+
+        /* Dropdown (hidden by default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            right: 0;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /*fancy schmancy stuff from stackoverflow
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {background-color: #f1f1f1;}
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {display: block;}
+
+        /* Change the background color of the dropdown button when the dropdown content is shown */
+        .dropdown:hover .dropbtn {background-color: #e74c3c;}
     </style>
 </head>
 <body>
     <h1>Leap</h1>
+
+    <!-- Dropdown menu for settings -->
+    <div class="dropdown">
+        <button class="dropbtn">Settings</button>
+        <div class="dropdown-content">
+            <a href="#">User Information</a>
+            <a href="#">Logout</a>
+        </div>
+    </div>
 
     <div class="month-year">
         <button onclick="prevMonth()">Previous</button>
@@ -161,8 +207,5 @@
         // Initial calendar setup
         updateCalendar();
     </script>
-    
-    
-    
 </body>
 </html>
