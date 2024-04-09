@@ -86,8 +86,9 @@
     <div class="dropdown">
         <button class="dropbtn">Settings</button>
         <div class="dropdown-content">
-            <a href="#">User Information</a>
-            <a href="#">Logout</a>
+            <a href="#">Profile</a>
+            <!--<a href="#">Logout</a>-->
+            <a href="#" onclick="close_window();return false;">Logout</a>
         </div>
     </div>
 
@@ -153,7 +154,7 @@
                     const popupWindow = window.open('', '_blank', 'width=400,height=200');
                     popupWindow.document.write(`
                         <h2>Enter Details for ${currentYear}-${currentMonth + 1}-${day}</h2>
-                        <form id="popupForm">
+                        <form id="popupForm" action="addEvent.php" method ="post">
                             <label for="title">Title:</label><br>
                             <input type="text" id="title" name="title"><br>
                             <label for="location">Location:</label><br>
