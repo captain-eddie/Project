@@ -1,26 +1,24 @@
 <?php
 session_start();
-require 'db_connect.php'; 
+require 'db_connect.php';
 
-$content = file_get_contents("php://input");
-$eventData = json_decode($content, true);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    //$user_id = $_POST['user_id'];
+    $date = $_POST['date'];
+    $name = $_POST['name'];
+    $location = $_POST['location'];
+    $notes = $_POST['notes'];
 
-if (!empty($eventData['date']) && !empty($eventData['name']) && !empty($eventData['userEmail'])) {
-    // Find user_id based on userEmail
-    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
-    $stmt->execute([$eventData['userEmail']]);
-    $user = $stmt->fetch();
-    
-    if ($user) {
-        $sql = "INSERT INTO events (user_id, date, name, location, notes) VALUES (?, ?, ?, ?, ?)";
-        if ($stmt = $pdo->prepare($sql)) {
-            $stmt->execute([$user['id'], $eventData['date'], $eventData['name'], $eventData['location'], $eventData['notes']]);
-            echo json_encode(['status' => 'success', 'message' => 'Event added successfully.']);
-            exit;
-        }
+   // echo "<p> $user_id </p> <p> $date </p> p> $name </p> p> $location</p> p> $notes </p>";
+
+    if (!empty($date) && !empty($name) && !empty($location) && !empty($notes)) {
+        
+        $sql = "INSERT INTO events (date, name, location, notes) VALUES ('$date','$name','$location','$notes')";
+        $conn->query($sql);
+
+        exit;
+    } else {
+        echo "Please fill in all fields.";
     }
-} else {
-    echo json_encode(['status' => 'error', 'message' => 'Missing required event details.']);
 }
 ?>
-

@@ -110,59 +110,52 @@
             }
         }
     
-        function openPopup(day) {
-            const popupWindow = window.open('', '_blank', 'width=400,height=200');
-            popupWindow.document.write(`
-                <h2>Enter Details for ${currentYear}-${currentMonth + 1}-${day}</h2>
-                <form id="popupForm">
-                    <label for="name">Name:</label><br>
-                    <input type="text" id="name" name="name"><br>
-                    <label for="location">Location:</label><br>
-                    <input type="text" id="location" name="location"><br>
-                    <label for="notes">Notes:</label><br>
-                    <textarea id="notes" name="notes"></textarea><br><br>
-                    <input type="button" value="Submit" onclick="submitEventForm()">
-                </form>
-            `);
-            popupWindow.document.close(); // Ensure the document is fully written
+    function openPopup(day) {
+        const popupWindow = window.open('', '_blank', 'width=400,height=200');
+        popupWindow.document.write(`
+            <h2>Enter Details for ${currentYear}-${currentMonth + 1}-${day}</h2>
+            <form id="popupForm" action="addEvent.php" method="POST">
+            <input type="hidden" id="date" name="date" value="${currentYear}-${currentMonth + 1}-${day}">
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name"><br>
+            <label for="location">Location:</label><br>
+            <input type="text" id="location" name="location"><br>
+            <label for="notes">Notes:</label><br>
+            <textarea id="notes" name="notes"></textarea><br><br>
+            <input type="submit" value="Submit">
+        </form>
+    `);
+    popupWindow.document.close(); // Ensure the document is fully written
+
             
-            popupWindow.submitEventForm = function() {
-                const name = popupWindow.document.getElementById('name').value;
-                const location = popupWindow.document.getElementById('location').value;
-                const notes = popupWindow.document.getElementById('notes').value;
-                
-                const eventData = {
-                    date: `${currentYear}-${currentMonth + 1}-${day}`,
-                    name: name,
-                    location: location,
-                    notes: notes,
-                    userEmail: sessionStorage.getItem('email') // Assuming email is stored in sessionStorage after login
-                };
-    
-                fetch('addEvent.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(eventData)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Success:', data);
-                    // You can add success handling here, e.g., update UI
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-    
-                popupWindow.close();
-            }
-    
-            popupWindow.document.getElementById('popupForm').onsubmit = function() {
-                popupWindow.submitEventForm();
-                return false; // Prevent form submission
-            };
-        }
+popupWindow.submitEventForm = function() {
+    const form = popupWindow.document.getElementById('popupForm');
+    const formData = new FormData(form);
+
+    //formData.append('user_id', sessionStorage.getItem('user_id')); 
+
+    fetch('addEvent.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log('Success:', data);
+        // You can add success handling here, e.g., update UI
+        popupWindow.close();
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+
+    return false; // Prevent form submission
+}
+
+popupWindow.document.getElementById('popupForm').onsubmit = function() {
+    return popupWindow.submitEventForm();
+}
+
+    }        
     
         // Function to go to the previous month
         function prevMonth() {
