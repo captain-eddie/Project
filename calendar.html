@@ -120,7 +120,7 @@
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
         let selectedCell; // To store the clicked cell
-        
+    
         // Function to update the calendar based on the current month and year
         function updateCalendar() {
             const calendarBody = document.getElementById('calendarBody');
@@ -131,6 +131,13 @@
     
             // Set the current month and year
             currentMonthYear.textContent = `${new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} ${currentYear}`;
+            
+            // Update the URL based on current month and year
+            const calendarURL = `calendar.html/calendar?month=${currentMonth + 1}&year=${currentYear}`;
+            console.log(calendarURL);
+
+            //  stuff
+            window.history.pushState({}, '', calendarURL);
     
             // Get the first day of the month and the total number of days in the month
             const firstDay = new Date(currentYear, currentMonth, 1).getDay();
@@ -164,7 +171,7 @@
                             <input type="submit" value="Submit">
                         </form>
                     `);
-                    
+    
                     // Add event listener to form submission
                     popupWindow.document.getElementById('popupForm').addEventListener('submit', function(event) {
                         event.preventDefault(); // Prevent default form submission
@@ -208,5 +215,6 @@
         // Initial calendar setup
         updateCalendar();
     </script>
+    
 </body>
 </html>
