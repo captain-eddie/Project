@@ -1,19 +1,17 @@
 <?php
 session_start();
-
-$userDataFile = 'users.txt';
+require 'db_connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = filter_input(INPUT_POST, 'registerEmail', FILTER_SANITIZE_EMAIL);
-    $password = $_POST['registerPassword']; 
-
+    $email = $_POST['registerEmail'];
+    $password = $_POST['registerPassword'];
+    echo "<p> $email </p> <p> $password </p>";
     if (!empty($email) && !empty($password)) {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        $userData = $email . ',' . $hashedPassword . "\n";
-
-        file_put_contents($userDataFile, $userData, FILE_APPEND);
-
+        $hashedPassword = md5($password);
+        
+        $sql = "INSERT INTO users (email, password) VALUES ('$email','$hashedPassword')";
+        $conn->query($sql);
+        
         header("Location: login.html");
         exit;
     } else {
@@ -21,3 +19,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
+
