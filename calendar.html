@@ -133,11 +133,12 @@
             currentMonthYear.textContent = `${new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} ${currentYear}`;
             
             // Update the URL based on current month and year
-            const calendarURL = `calendar.html/calendar?month=${currentMonth + 1}&year=${currentYear}`;
+            calendarURL = `calendar.html?month=${currentMonth + 1}&year=${currentYear}`;
             console.log(calendarURL);
 
             //  stuff
             window.history.pushState({}, '', calendarURL);
+            calendarURL = '';
     
             // Get the first day of the month and the total number of days in the month
             const firstDay = new Date(currentYear, currentMonth, 1).getDay();
