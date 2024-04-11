@@ -22,6 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo"<p> Email: $email </p>";
         echo"<p> Password: $hashedPassword </p>";
         echo"<p> $sql </p>";
+        echo "<p> $id </p>";
     }
 }
 ?>
