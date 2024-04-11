@@ -115,6 +115,11 @@
         </tbody>
     </table>
 
+    <?php
+        //function will take number for month
+        //  return stuff
+    ?>
+
     <script>
         // Initial values for the current month and year
         let currentMonth = new Date().getMonth();
