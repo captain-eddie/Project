@@ -118,6 +118,11 @@
     <?php
         //function will take number for month
         //  return stuff
+
+        /**
+         * function echoes out javascript array
+         * inside script tag from 133-whatever, call this php function with php tags
+         */
     ?>
 
     <script>
@@ -157,7 +162,14 @@
     
             for (let day = 1; day <= lastDay; day++) {
                 const cell = row.insertCell();
-                cell.textContent = day;
+                day_data = eventList[day];
+                eventDescription = day_data;
+                if(day_data == null){
+                    cell.textContent = day;
+                }
+                else{
+                    cell.textContent = day + day_data;   // day data title
+                }
     
                 // Add click event listener to each cell
                 cell.addEventListener('click', function() {
