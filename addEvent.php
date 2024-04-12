@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $location = $_POST['location'];
     $notes = $_POST['notes'];
-
+    //echo "<p> $user_id </p> <p> $date </p> <p> $name </p> <p> $location </p> <p> $notes </p>";
 
     if (!empty($user_id) && !empty($date) && !empty($name) && !empty($location) && !empty($notes)) {
         

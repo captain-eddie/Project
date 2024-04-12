@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['id'] = $row['id'];
         $_SESSION['email'] = $email;
 
-        header("Location: calendar.html");
+        header("Location: calendar.php");
         exit;
     } else {
         echo "Invalid email or password.";
