@@ -78,6 +78,31 @@
         /* Change the background color of the dropdown button when the dropdown content is shown */
         .dropdown:hover .dropbtn {background-color: #e74c3c;}
     </style>
+
+    <?php
+        session_start();
+        require 'db_connect.php';
+
+        // Initialize the eventList array
+        $eventList = array();
+
+        // Get the events for the current user
+        $sql = "SELECT DAY(date) as day, name, notes FROM events WHERE user_id = '".$_SESSION['id']."' AND MONTH(date) = '".date('m')."' AND YEAR(date) = '".date('Y')."'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+        // Output data of each row
+        while($row = $result->fetch_assoc()) {
+        $eventList[$row["day"]] = $row["name"].' '.$row["notes"];
+        }
+        }
+
+        // Output the eventList array as a JavaScript object
+        echo '<script>';
+        echo 'const eventList = '.json_encode($eventList).';';
+        echo '</script>';
+    ?>
+
 </head>
 <body>
     <h1>Leap</h1>
@@ -115,22 +140,13 @@
         </tbody>
     </table>
 
-    <?php
-        //function will take number for month
-        //  return stuff
-
-        /**
-         * function echoes out javascript array
-         * inside script tag from 133-whatever, call this php function with php tags
-         */
-    ?>
 
     <script>
         // Initial values for the current month and year
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
         let selectedCell; // To store the clicked cell
-    
+        //call php function
         // Function to update the calendar based on the current month and year
         function updateCalendar() {
             const calendarBody = document.getElementById('calendarBody');
