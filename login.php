@@ -1,31 +1,28 @@
 <?php
 session_start();
-
-$userDataFile = 'users.txt';
-
-$users = [];
-if (file_exists($userDataFile)) {
-    $lines = file($userDataFile, FILE_IGNORE_NEW_LINES);
-    foreach ($lines as $line) {
-        list($email, $hashedPassword) = explode(',', $line);
-        $users[] = ['email' => $email, 'password' => $hashedPassword];
-    }
-}
-
+require 'db_connect.php'; 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['loginEmail'];
     $password = $_POST['loginPassword'];
+    $hashedPassword = md5($password);
 
-    foreach ($users as $user) {
-        if ($user['email'] == $email && password_verify($password, $user['password'])) {
-            $_SESSION['loggedin'] = true;
-            $_SESSION['email'] = $email;
-            //  this is redirect stuff and things
-            header("Location: calendar.html");
-            exit;
-        }
+    $sql = "SELECT id,email, password FROM users WHERE email ='".$email."'";
+    $sql.="and password='".$hashedPassword."'";
+    $result=$conn->query($sql);
+    if ($result->num_rows>0) {
+        $row = $result->fetch_assoc();
+        $_SESSION['loggedin'] = true;
+        $_SESSION['id'] = $row['id'];
+        $_SESSION['email'] = $email;
+
+        header("Location: calendar.php");
+        exit;
+    } else {
+        echo "Invalid email or password.";
+        echo"<p> Email: $email </p>";
+        echo"<p> Password: $hashedPassword </p>";
+        echo"<p> $sql </p>";
+        echo "<p> $id </p>";
     }
-
-    echo "Invalid email or password";
 }
 ?>
