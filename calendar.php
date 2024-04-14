@@ -44,7 +44,7 @@
         
         h1 {
             color: #e74c3c; /* change the color of the h1 element */
-            display: inline-block; /* Ensures the logo is inline with the text */
+            /*display: inline-block; /* Ensures the logo is inline with the text */
         }
 
         /* Dropdown button */
