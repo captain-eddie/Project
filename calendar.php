@@ -6,11 +6,9 @@
     <title>Leap</title>
     <style>
         .logo {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             width: 100px; /* Adjust width as needed */
             height: auto; /* Maintain aspect ratio */
+            margin-left: 10px; /* Add margin to separate from text */
         }
         body {
             font-family: Arial, sans-serif;
@@ -46,6 +44,7 @@
         
         h1 {
             color: #e74c3c; /* change the color of the h1 element */
+            display: inline-block; /* Ensures the logo is inline with the text */
         }
 
         /* Dropdown button */
@@ -112,7 +111,7 @@
 
 </head>
 <body>
-    <h1>Leap</h1>
+    <h1>Leap <img class="logo" src="logo.jpg" alt="Logo"></h1>
 
     <!-- Dropdown menu for settings -->
     <div class="dropdown">
@@ -123,7 +122,6 @@
             <a href="#" onclick="close_window();return false;">Logout</a>
         </div>
     </div>
-    <img class="logo" src="logo.jpeg" alt="Logo">
     <div class="month-year">
         <button onclick="prevMonth()">Previous</button>
         <span id="currentMonthYear"></span>
